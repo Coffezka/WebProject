@@ -8,7 +8,7 @@ class currencie(models.Model):
     value = models.IntegerField()
 
 class usersBill(models.Model):
-    userID = models.CharField(max_length=400)#FK
+    userID = models.CharField(max_length=400) #FK
     billName = models.CharField(max_length=30)
     img = models.CharField(max_length=400)
 
@@ -18,18 +18,18 @@ class billCurrencie(models.Model):
     balance = models.IntegerField()
 
 class userGoal(models.Model):
-    userID = models.CharField(max_length=400)#FK
+    userID = models.CharField(max_length=400) #FK
     dateStart = models.DateTimeField()
     dateEnd = models.DateTimeField()
     description = models.CharField(max_length=500)
     goalSum = models.IntegerField()
 
 class userHistory(models.Model):
-    userID = models.CharField(max_length=400)#FK
+    userID = models.CharField(max_length=400) #FK
     date = models.DateTimeField()
     billID = models.ForeignKey(usersBill, on_delete=models.CASCADE)
-    function = models.IntegerField()
-    category = models.IntegerField()
+    function = models.BooleanField() #function - дохід чи розхід
+    category = models.IntegerField() #cat - в мене там іконка типу ставиться розхід на їжу, одяг і тд, аналогічно з доходом
     sum = models.IntegerField()
     currencieID = models.ForeignKey(currencie, on_delete=models.CASCADE)#FK
 
