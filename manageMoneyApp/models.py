@@ -37,3 +37,5 @@ class userSetting(models.Model):
     userID = models.CharField(max_length=400)#FK
     darkTheme =  models.BooleanField()
     defaultCurrencie = models.ForeignKey(currencie, on_delete=models.CASCADE)
+
+
