@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -8,7 +9,10 @@ class currencie(models.Model):
     value = models.IntegerField()
 
 class usersBill(models.Model):
-    userID = models.CharField(max_length=400) #FK
+    userID = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     billName = models.CharField(max_length=30)
     img = models.CharField(max_length=400)
 
@@ -18,14 +22,20 @@ class billCurrencie(models.Model):
     balance = models.IntegerField()
 
 class userGoal(models.Model):
-    userID = models.CharField(max_length=400) #FK
+    userID = userID = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     dateStart = models.DateTimeField()
     dateEnd = models.DateTimeField()
     description = models.CharField(max_length=500)
     goalSum = models.IntegerField()
 
 class userHistory(models.Model):
-    userID = models.CharField(max_length=400) #FK
+    userID = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     date = models.DateTimeField()
     billID = models.ForeignKey(usersBill, on_delete=models.CASCADE)
     function = models.BooleanField() #function - дохід чи розхід
@@ -34,7 +44,10 @@ class userHistory(models.Model):
     currencieID = models.ForeignKey(currencie, on_delete=models.CASCADE)#FK
 
 class userSetting(models.Model):
-    userID = models.CharField(max_length=400)#FK
+    userID = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     darkTheme =  models.BooleanField()
     defaultCurrencie = models.ForeignKey(currencie, on_delete=models.CASCADE)
 
