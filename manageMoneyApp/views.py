@@ -3,8 +3,9 @@ from rest_framework import authentication,permissions
 from .serializers import currencieSerializer, usersBillSerializer, billCurrencieSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer
 from .models import currencie, usersBill, billCurrencie, userGoal, userHistory, userSetting
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 
-class currencieViewSet(viewsets.ModelViewSet):
+class currencieViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = currencie.objects.all()
     serializer_class = currencieSerializer
 
