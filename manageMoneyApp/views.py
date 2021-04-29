@@ -8,7 +8,6 @@ from rest_framework import filters
 class OwnerFilterBackend(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         return queryset.filter(userID=request.user)
-
 class currencieViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = currencie.objects.all()
     serializer_class = currencieSerializer
