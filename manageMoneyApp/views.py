@@ -16,30 +16,36 @@ class OwnerFilterBackend(filters.BaseFilterBackend):
 class currencieViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = currencie.objects.all()
     serializer_class = currencieSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'fullName']
 
 
 class usersBillViewSet(viewsets.ModelViewSet):
-    filter_backends = (OwnerFilterBackend,)
+    filter_backends = (OwnerFilterBackend,filters.SearchFilter,)
     queryset = usersBill.objects.all()
     serializer_class = usersBillSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    search_fields = ['billName']
 
 class userGoalViewSet(viewsets.ModelViewSet):
-    filter_backends = (OwnerFilterBackend,)
+    filter_backends = (OwnerFilterBackend,filters.SearchFilter,)
     queryset = userGoal.objects.all()
     serializer_class = userGoalSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    search_fields = ['description']
+    
     
 
 
 class userHistoryViewSet(viewsets.ReadOnlyModelViewSet):
-    filter_backends = (OwnerFilterBackend,)
+    filter_backends = (OwnerFilterBackend,filters.SearchFilter,)
     queryset = userHistory.objects.all()
     serializer_class = userHistorySerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    search_fields = ['description']
 
 class userSettingViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
     filter_backends = (OwnerFilterBackend,)
