@@ -9,7 +9,7 @@ from django.conf import settings
 class currencie(models.Model):
     name = models.CharField(max_length=3) #Стандартом ISO 4217
     fullName = models.CharField(max_length=30)
-    value = models.IntegerField()
+    value = models.FloatField()
 
 class usersBill(models.Model):
     userID = models.ForeignKey(
@@ -18,11 +18,9 @@ class usersBill(models.Model):
     )
     billName = models.CharField(max_length=30)
     img = models.CharField(max_length=400)
+    currencieID = models.ForeignKey(currencie, on_delete=models.CASCADE,null=True)
+    balance = models.IntegerField(null=True)
 
-class billCurrencie(models.Model):
-    billID = models.ForeignKey(usersBill, on_delete=models.CASCADE)
-    currencieID = models.ForeignKey(currencie, on_delete=models.CASCADE)
-    balance = models.IntegerField()
 
 class userGoal(models.Model):
     userID = userID = models.ForeignKey(

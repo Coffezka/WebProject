@@ -13,7 +13,6 @@ router = routers.DefaultRouter()
 router.register(r'userGoal-rest', views.userGoalViewSet)
 router.register(r'userHistory-rest', views.userHistoryViewSet)
 router.register(r'currencie-rest', views.currencieViewSet)
-router.register(r'billCurrencie-rest', views.billCurrencieViewSet)
 router.register(r'usersBill-rest', views.usersBillViewSet)
 router.register(r'userSetting-rest', views.userSettingViewSet)
 

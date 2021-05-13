@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import authentication,permissions
-from .serializers import currencieSerializer, usersBillSerializer, billCurrencieSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer
-from .models import currencie, usersBill, billCurrencie, userGoal, userHistory, userSetting
+from .serializers import currencieSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer
+from .models import currencie, usersBill, userGoal, userHistory, userSetting
 from rest_framework.authtoken.models import Token
 from rest_framework import filters
 from rest_framework.views import APIView
@@ -22,12 +22,6 @@ class usersBillViewSet(viewsets.ModelViewSet):
     filter_backends = (OwnerFilterBackend,)
     queryset = usersBill.objects.all()
     serializer_class = usersBillSerializer
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
-
-class billCurrencieViewSet(viewsets.ModelViewSet):
-    queryset = billCurrencie.objects.all()
-    serializer_class = billCurrencieSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 

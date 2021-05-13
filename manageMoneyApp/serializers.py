@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import currencie, usersBill, billCurrencie, userGoal, userHistory, userSetting
+from .models import currencie, usersBill, userGoal, userHistory, userSetting
 
 class currencieSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,12 +9,7 @@ class currencieSerializer(serializers.ModelSerializer):
 class usersBillSerializer(serializers.ModelSerializer):
     class Meta:
         model = usersBill
-        fields = ['userID','billName','img']
-
-class billCurrencieSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = billCurrencie
-        fields = ['billID','currencieID','balance']
+        fields = ['userID','billName','img','currencieID','balance']
 
 class userGoalSerializer(serializers.ModelSerializer):
     class Meta:
