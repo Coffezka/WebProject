@@ -45,7 +45,7 @@ class userHistoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = userHistorySerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
-    search_fields = ['description']
+    search_fields = ['function','date']
 
 class userSettingViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
     filter_backends = (OwnerFilterBackend,)
