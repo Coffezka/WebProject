@@ -80,7 +80,7 @@ DATABASES = {
     }
 }
 
-#AUTH_USER_MODEL = 'account.Account'
+AUTH_USER_MODEL = 'account.Account'
 
 
 # Password validation
