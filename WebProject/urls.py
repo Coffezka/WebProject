@@ -45,6 +45,6 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    #path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
     path('api/account/', include('account.api.urls', 'account_api'))
 ]

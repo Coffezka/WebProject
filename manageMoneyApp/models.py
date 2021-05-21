@@ -23,7 +23,7 @@ class usersBill(models.Model):
 
 
 class userGoal(models.Model):
-    userID = userID = models.ForeignKey(
+    userID = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
