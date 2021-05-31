@@ -32,6 +32,14 @@ class userGoal(models.Model):
     description = models.CharField(max_length=500)
     goalSum = models.IntegerField()
 
+class userOperation(models.Model):
+    userID = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    type = models.BooleanField()
+    sum = models.IntegerField()
+
 class userWant(models.Model):
     userID = models.ForeignKey(
         settings.AUTH_USER_MODEL,

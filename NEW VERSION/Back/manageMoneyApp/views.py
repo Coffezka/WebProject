@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import authentication,permissions
-from .serializers import currencieSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer
-from .models import currencie, usersBill, userWant, userGoal, userHistory, userSetting
+from .serializers import currencieSerializer, usersOperationSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer
+from .models import currencie, usersBill, userOperation, userWant, userGoal, userHistory, userSetting
 from rest_framework.authtoken.models import Token
 from rest_framework import filters
 from rest_framework.views import APIView
@@ -31,6 +31,17 @@ class usersBillViewSet(viewsets.ModelViewSet):
         return serializer.save(userID=self.request.user)
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
+
+class usersOperationViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+    queryset = userOperation.objects.all()
+    serializer_class = usersOperationSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+
+    def perform_create(self, serializer):
+        return serializer.save(userID=self.request.user)
+    def perform_update(self, serializer):
+        return serializer.save(userID=self.request.user)
+
 
 class userWantViewSet(viewsets.ModelViewSet):
     filter_backends = (OwnerFilterBackend,filters.SearchFilter,)
