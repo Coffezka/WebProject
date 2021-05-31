@@ -20,9 +20,11 @@ def registration_view(request):
             currencieObj = currencie.objects.get(name="UAH")
             user_setting = userSetting(userID = user_id, darkTheme= False, defaultCurrencie=currencieObj)
             user_setting.save()
+            data['message'] = "registration was successful"
             #print(Account.objects.get(username=account).id)
             #token, created = Token.objects.get_or_create(user=account)
             #data['token'] = token.key
         else:
             data = serializer.errors
+            print(serializer.errors)
         return Response(data)

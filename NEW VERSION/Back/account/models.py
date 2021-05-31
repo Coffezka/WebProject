@@ -7,15 +7,19 @@ from rest_framework.authtoken.models import Token
 
 class MyAccountManger(BaseUserManager):
     def create_user(self, email, username, password=None):
+        print("hello")
         if not email:
-            raise ValueError("User must have a email field")
-        if not username:
-            raise ValueError("User must have username field")
+            if not username:
+                raise ValueError("This username and email already taken")
+            else:
+                raise ValueError("This email is already taken")
 
         user = self.model(
                 email = self.normalize_email(email),
                 username = username
         )
+
+        
 
         user.set_password(password)
         user.save(using=self._db)

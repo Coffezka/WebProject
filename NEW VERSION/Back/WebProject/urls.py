@@ -32,6 +32,7 @@ schema_view = get_schema_view(
 router = routers.DefaultRouter()
 router.register(r'userGoal-rest', views.userGoalViewSet)
 router.register(r'userHistory-rest', views.userHistoryViewSet)
+router.register(r'userWant-rest', views.userWantViewSet)
 router.register(r'currencie-rest', views.currencieViewSet)
 router.register(r'usersBill-rest', views.usersBillViewSet)
 router.register(r'userSetting-rest', views.userSettingViewSet)
