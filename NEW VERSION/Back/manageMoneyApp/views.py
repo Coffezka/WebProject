@@ -32,7 +32,7 @@ class usersBillViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
 
-class usersOperationViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+class usersOperationViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin):
     queryset = userOperation.objects.all()
     serializer_class = usersOperationSerializer
     authentication_classes = [authentication.TokenAuthentication]
