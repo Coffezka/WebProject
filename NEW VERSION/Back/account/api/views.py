@@ -42,7 +42,7 @@ def token_check(request):
             is_tokened =  Token.objects.filter(key=serializer.data["token"]).exists()
             #is_tokened = Token.objects.get(key=serializer.data["token"])
             if is_tokened :
-                is_username = Account.objects.get(id=Token.objects.get(key=serializer.data["token"]).user_id).username == serializer.data["username"]
+                is_username = Account.objects.get(id=Token.objects.get(key=serializer.data["token"]).user_id).email == serializer.data["username"]
                 if is_username:
                     type = {'type':'success'}
         return JsonResponse(type)
