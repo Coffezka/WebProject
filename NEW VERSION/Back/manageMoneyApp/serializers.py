@@ -4,7 +4,7 @@ from .models import currencie, userOperation, usersBill,userWant, userGoal, user
 class currencieSerializer(serializers.ModelSerializer):
     class Meta:
         model = currencie
-        fields = ['name','fullName','value']
+        fields = ['id','name','fullName','value']
 
 class usersBillSerializer(serializers.ModelSerializer):
     class Meta:
