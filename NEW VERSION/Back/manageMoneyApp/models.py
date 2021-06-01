@@ -27,8 +27,8 @@ class userGoal(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    dateStart = models.DateTimeField()
-    dateEnd = models.DateTimeField()
+    dateStart = models.CharField(max_length=500)
+    dateEnd = models.CharField(max_length=500)
     description = models.CharField(max_length=500)
     goalSum = models.IntegerField()
 
@@ -53,7 +53,7 @@ class userHistory(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    date = models.DateTimeField()
+    date = models.CharField(max_length=500)
     operationID = models.ForeignKey(userOperation, on_delete=models.CASCADE,null=True)
 
 class userSetting(models.Model):

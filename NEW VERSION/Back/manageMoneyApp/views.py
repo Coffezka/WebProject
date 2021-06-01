@@ -40,7 +40,7 @@ class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, m
 
     def perform_create(self, serializer):
         operation = serializer.save(userID=self.request.user)  
-        user_history = userHistory(userID = self.request.user,date = datetime.datetime.now(),operationID = operation)
+        user_history = userHistory(userID = self.request.user,date = int(round(datetime.datetime.now().timestamp() * 1000)),operationID = operation)
         user_history.save()
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
