@@ -33,15 +33,15 @@ class usersBillViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
 
-class usersOperationViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin):
+class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin):
     queryset = userOperation.objects.all()
     serializer_class = usersOperationSerializer
     authentication_classes = [authentication.TokenAuthentication]
 
     def perform_create(self, serializer):
-        #user_history = userHistory(userID = self.request.user,date = datetime.datetime.now(),operationID = "")
-        #user_history.save()
-        return serializer.save(userID=self.request.user)
+        operation = serializer.save(userID=self.request.user)  
+        user_history = userHistory(userID = self.request.user,date = datetime.datetime.now(),operationID = operation)
+        user_history.save()
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
 
@@ -51,7 +51,6 @@ class userWantViewSet(viewsets.ModelViewSet):
     queryset = userWant.objects.all()
     serializer_class = usersWantSerializer
     authentication_classes = [authentication.TokenAuthentication]
-    
     search_fields = ['name']
 
     def perform_create(self, serializer):
