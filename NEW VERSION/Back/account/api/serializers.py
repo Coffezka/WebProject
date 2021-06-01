@@ -33,3 +33,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.save()
 
         return self.validated_data["username"]
+
+class CheckTokenSerializer(serializers.Serializer):
+   """Your data serializer, define your fields here."""
+   token = serializers.CharField()
+   username = serializers.CharField()
