@@ -1,3 +1,4 @@
+import datetime
 from rest_framework import viewsets
 from rest_framework import authentication,permissions
 from .serializers import currencieSerializer, usersOperationSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer
@@ -38,6 +39,8 @@ class usersOperationViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, v
     authentication_classes = [authentication.TokenAuthentication]
 
     def perform_create(self, serializer):
+        #user_history = userHistory(userID = self.request.user,date = datetime.datetime.now(),operationID = "")
+        #user_history.save()
         return serializer.save(userID=self.request.user)
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)

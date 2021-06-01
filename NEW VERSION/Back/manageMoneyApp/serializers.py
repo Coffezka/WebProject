@@ -9,29 +9,29 @@ class currencieSerializer(serializers.ModelSerializer):
 class usersBillSerializer(serializers.ModelSerializer):
     class Meta:
         model = usersBill
-        fields = ['billName','img','currencieID','balance']
+        fields = ['id','billName','img','currencieID','balance']
 
 class usersWantSerializer(serializers.ModelSerializer):
     class Meta:
         model = userWant
-        fields = ['name']
+        fields = ['id','name']
 
 class usersOperationSerializer(serializers.ModelSerializer):
     class Meta:
         model = userOperation
-        fields = ['type', 'sum']
+        fields = ['id','type', 'sum','billID']
 
 class userGoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = userGoal
-        fields = ['dateStart','dateEnd','description','goalSum']
+        fields = ['id','dateStart','dateEnd','description','goalSum']
 
 class userHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = userHistory
-        fields = ['date','billID','function','category','sum','currencieID']
+        fields = ['id','date','operationID']
 
 class userSettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = userSetting
-        fields = ['darkTheme','defaultCurrencie']
+        fields = ['id','darkTheme','defaultCurrencie']

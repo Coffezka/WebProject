@@ -39,6 +39,7 @@ class userOperation(models.Model):
     )
     type = models.BooleanField()
     sum = models.IntegerField()
+    billID = models.ForeignKey(usersBill, on_delete=models.CASCADE,null=True)
 
 class userWant(models.Model):
     userID = models.ForeignKey(
@@ -53,11 +54,7 @@ class userHistory(models.Model):
         on_delete=models.CASCADE,
     )
     date = models.DateTimeField()
-    billID = models.ForeignKey(usersBill, on_delete=models.CASCADE)
-    function = models.BooleanField() #function - дохід чи розхід
-    category = models.IntegerField() #cat - в мене там іконка типу ставиться розхід на їжу, одяг і тд, аналогічно з доходом
-    sum = models.IntegerField()
-    currencieID = models.ForeignKey(currencie, on_delete=models.CASCADE)#FK
+    operationID = models.ForeignKey(userOperation, on_delete=models.CASCADE,null=True)
 
 class userSetting(models.Model):
     userID = models.ForeignKey(
