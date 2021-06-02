@@ -40,7 +40,14 @@ class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, m
     authentication_classes = [authentication.TokenAuthentication]
 
     def perform_create(self, serializer):
-        operation = serializer.save(userID=self.request.user)  
+        operation = serializer.save(userID=self.request.user)
+        bill_id = self.request.POST['billID'] 
+        user_bill = usersBill.objects.get(pk = bill_id)
+        if self.request.POST['type'] == "true":
+            user_bill.balance = user_bill.balance + int(self.request.POST['sum'] )
+        else:
+            user_bill.balance = user_bill.balance - int(self.request.POST['sum'] )
+        user_bill.save()
         user_history = userHistory(userID = self.request.user,date = int(round(datetime.datetime.now().timestamp() * 1000)),operationID = operation)
         user_history.save()
     def perform_update(self, serializer):
