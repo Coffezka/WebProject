@@ -42,12 +42,12 @@ class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, m
 
     def perform_create(self, serializer):
         operation = serializer.save(userID=self.request.user)
-        bill_id = self.request.POST['billID'] 
+        bill_id = getattr(operation,"billID").id
         user_bill = usersBill.objects.get(pk = bill_id)
-        if self.request.POST['type'] == "true":
-            user_bill.balance = user_bill.balance + int(self.request.POST['sum'] )
+        if getattr(operation,"type") ==  True:
+            user_bill.balance += getattr(operation,"sum") 
         else:
-            user_bill.balance = user_bill.balance - int(self.request.POST['sum'] )
+            user_bill.balance -= getattr(operation,"sum") 
         user_bill.save()
         if usersStat.objects.filter(userID = self.request.user).count() == 0:
             stat = usersStat(userID = self.request.user)
