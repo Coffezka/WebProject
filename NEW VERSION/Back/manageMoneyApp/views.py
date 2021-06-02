@@ -52,7 +52,7 @@ class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, m
         if usersStat.objects.filter(userID = self.request.user).count() == 0:
             stat = usersStat(userID = self.request.user)
             stat.date = stat.date + str(round(time.time() * 1000)) + " "
-            stat.balance = getattr(operation,"sum") + " "
+            stat.balance = str(getattr(operation,"sum")) + " "
             stat.save()
         else:
             bills = usersBill.objects.filter(userID=self.request.user)
@@ -148,8 +148,11 @@ class userSettingViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mixins.
 
 @api_view(['GET',])
 def userStatat(request):
-    balance = usersStat.objects.get(userID=request.user)
-    return JsonResponse({ "date" :  getattr(balance,"date"), "balance": getattr(balance,"balance")})
+    if usersStat.objects.filter(userID=request.user).count() == 0:
+        return JsonResponse({"message": "your bill is empty"})
+    else:
+        balance = usersStat.objects.get(userID=request.user)
+        return JsonResponse({ "message": "success", "date" :  getattr(balance,"date"), "balance": getattr(balance,"balance")})
     
 
 @api_view(['GET',])
