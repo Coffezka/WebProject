@@ -1,7 +1,7 @@
 import datetime
 from rest_framework import viewsets
 from rest_framework import authentication,permissions
-from .serializers import currencieSerializer, usersOperationSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer, userBillsBind
+from .serializers import currencieSerializer, usersOperationSerializerExtend, userHistorySerializerExtend,usersOperationSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer, userBillsBind
 from .models import currencie, usersBill, userOperation, userWant, userGoal, userHistory, userSetting
 from rest_framework.authtoken.models import Token
 from rest_framework import filters
@@ -36,7 +36,7 @@ class usersBillViewSet(viewsets.ModelViewSet):
 
 class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin):
     queryset = userOperation.objects.all()
-    serializer_class = usersOperationSerializer
+    #serializer_class = usersOperationSerializer
     authentication_classes = [authentication.TokenAuthentication]
 
     def perform_create(self, serializer):
@@ -45,6 +45,13 @@ class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, m
         user_history.save()
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return usersOperationSerializerExtend
+        if self.action == 'retrieve':
+            return usersOperationSerializerExtend
+        return usersOperationSerializer
 
 
 class userWantViewSet(viewsets.ModelViewSet):
@@ -76,7 +83,7 @@ class userGoalViewSet(viewsets.ModelViewSet):
 class userHistoryViewSet(viewsets.ModelViewSet):
     filter_backends = (OwnerFilterBackend,filters.SearchFilter,)
     queryset = userHistory.objects.all()
-    serializer_class = userHistorySerializer
+    #serializer_class = userHistorySerializer
     authentication_classes = [authentication.TokenAuthentication]
     search_fields = ['function','date']
 
@@ -84,6 +91,13 @@ class userHistoryViewSet(viewsets.ModelViewSet):
         return serializer.save(userID=self.request.user)
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return userHistorySerializerExtend
+        if self.action == 'retrieve':
+            return userHistorySerializerExtend
+        return userHistorySerializer
 
 
 class userSettingViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
@@ -103,7 +117,7 @@ def userBillBind(request):
         serializer = userBillsBind(data=request.data)
         
         if serializer.is_valid():
-
+            
             return JsonResponse({'type':serializer.data['firstBillID']})
         return JsonResponse({'type':'ErrorBind'})
     

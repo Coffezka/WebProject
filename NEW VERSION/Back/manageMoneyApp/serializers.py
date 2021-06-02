@@ -18,6 +18,11 @@ class usersWantSerializer(serializers.ModelSerializer):
         fields = ['id','name']
 
 class usersOperationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = userOperation
+        fields = ['id','type', 'sum','billID']
+
+class usersOperationSerializerExtend(serializers.ModelSerializer):
     billID = usersBillSerializer(required=False)
     class Meta:
         model = userOperation
@@ -29,7 +34,12 @@ class userGoalSerializer(serializers.ModelSerializer):
         fields = ['id','dateStart','dateEnd','description','goalSum']
 
 class userHistorySerializer(serializers.ModelSerializer):
-    operationID = usersOperationSerializer(required=False)
+    class Meta:
+        model = userHistory
+        fields = ['id','date','operationID']
+
+class userHistorySerializerExtend(serializers.ModelSerializer):
+    operationID = usersOperationSerializerExtend(required=False)
     class Meta:
         model = userHistory
         fields = ['id','date','operationID']
