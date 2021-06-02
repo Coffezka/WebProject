@@ -25,8 +25,6 @@ class AccountMethods(TestCase):
         headers = {'content-type': 'application/json'}
         r = requests.post('http://127.0.0.1:8000/api/account/login', data=json.dumps(body),headers=headers)
 
-        print((str(r.json()['non_field_errors'][0])=='Unable to log in with provided credentials.'))
-
-        #self.assertEqual(r.json()['token'],'ff43c9b0095fed2f19c97c63861af794edd6c1f0')
+        self.assertTrue((str(r.json()['non_field_errors'][0])=='Unable to log in with provided credentials.'))
         
 

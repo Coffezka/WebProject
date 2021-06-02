@@ -119,7 +119,6 @@ def userBalance(request):
         cof = getattr(getattr(c, "currencieID"), "value")
         balance += (num*cof)
         
-
     return JsonResponse({'Balance': balance})
     
 
