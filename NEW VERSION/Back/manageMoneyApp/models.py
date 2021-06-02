@@ -21,6 +21,14 @@ class usersBill(models.Model):
     currencieID = models.ForeignKey(currencie, on_delete=models.CASCADE,null=True)
     balance = models.IntegerField(null=True)
 
+class usersStat(models.Model):
+    userID = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    date = models.TextField(max_length=1000)
+    balance = models.TextField(max_length=1000)
+
 
 class userGoal(models.Model):
     userID = models.ForeignKey(

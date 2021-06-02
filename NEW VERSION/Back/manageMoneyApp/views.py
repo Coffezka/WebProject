@@ -1,8 +1,9 @@
 import datetime
+import time
 from rest_framework import viewsets
 from rest_framework import authentication,permissions
 from .serializers import currencieSerializer, usersOperationSerializerExtend, userHistorySerializerExtend,usersOperationSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer
-from .models import currencie, usersBill, userOperation, userWant, userGoal, userHistory, userSetting
+from .models import currencie, usersStat, usersBill, userOperation, userWant, userGoal, userHistory, userSetting
 from rest_framework.authtoken.models import Token
 from rest_framework import filters
 from rest_framework.response import Response
@@ -48,6 +49,21 @@ class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, m
         else:
             user_bill.balance = user_bill.balance - int(self.request.POST['sum'] )
         user_bill.save()
+        if usersStat.objects.filter(userID = self.request.user).count() == 0:
+            stat = usersStat(userID = self.request.user)
+            stat.save()
+        else:
+            bills = usersBill.objects.filter(userID=self.request.user)
+            balance = 0
+            for i, c in enumerate(bills):
+                num = getattr(c, "balance")
+                cof = getattr(getattr(c, "currencieID"), "value")
+                balance += (num*cof)
+            stat = usersStat.objects.get(userID = self.request.user)
+            stat.date = stat.date + str(round(time.time() * 1000)) + " "
+            stat.balance = stat.balance + str(round(balance)) + " "
+            stat.save()
+        
         user_history = userHistory(userID = self.request.user,date = int(round(datetime.datetime.now().timestamp() * 1000)),operationID = operation)
         user_history.save()
     def perform_update(self, serializer):
@@ -59,6 +75,17 @@ class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, m
         if self.action == 'retrieve':
             return usersOperationSerializerExtend
         return usersOperationSerializer
+
+class userStatViewSet(viewsets.ModelViewSet):
+    queryset = usersStat.objects.all()
+    serializer_class = usersWantSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    search_fields = ['name']
+
+    def perform_create(self, serializer):
+        return serializer.save(userID=self.request.user)
+    def perform_update(self, serializer):
+        return serializer.save(userID=self.request.user)
 
 
 class userWantViewSet(viewsets.ModelViewSet):
@@ -116,6 +143,12 @@ class userSettingViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mixins.
         return serializer.save(userID=self.request.user)
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
+
+@api_view(['GET',])
+def userStatat(request):
+    balance = usersStat.objects.get(userID=request.user)
+    return JsonResponse({ "date" :  getattr(balance,"date"), "balance": getattr(balance,"balance")})
+    
 
 @api_view(['GET',])
 def userBalance(request):

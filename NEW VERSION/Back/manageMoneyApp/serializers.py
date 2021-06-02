@@ -49,6 +49,11 @@ class userSettingSerializer(serializers.ModelSerializer):
         model = userSetting
         fields = ['id','darkTheme','defaultCurrencie']
 
+class userStatBind(serializers.Serializer):
+   """Your data serializer, define your fields here."""
+   date = serializers.CharField(max_length=1000)
+   balance = serializers.CharField(max_length=1000)
+
 # class userBillsBind(serializers.Serializer):
 #    """Your data serializer, define your fields here."""
 #    firstBillID = serializers.IntegerField()
