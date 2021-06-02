@@ -51,6 +51,8 @@ class usersOperationViewSet(mixins.RetrieveModelMixin,mixins.CreateModelMixin, m
         user_bill.save()
         if usersStat.objects.filter(userID = self.request.user).count() == 0:
             stat = usersStat(userID = self.request.user)
+            stat.date = stat.date + str(round(time.time() * 1000)) + " "
+            stat.balance = getattr(operation,"sum") + " "
             stat.save()
         else:
             bills = usersBill.objects.filter(userID=self.request.user)
