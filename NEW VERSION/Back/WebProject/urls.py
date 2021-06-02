@@ -48,7 +48,7 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/userBillBind-rest',views.userBillBind,name='userBillBind'),
+    path('api/userBalance-rest',views.userBalance,name='userBillBind'),
     path('api/account/', include('account.api.urls', 'account_api')
     )
 ]

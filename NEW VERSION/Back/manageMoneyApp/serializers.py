@@ -49,8 +49,8 @@ class userSettingSerializer(serializers.ModelSerializer):
         model = userSetting
         fields = ['id','darkTheme','defaultCurrencie']
 
-class userBillsBind(serializers.Serializer):
-   """Your data serializer, define your fields here."""
-   firstBillID = serializers.IntegerField()
-   secondBillID = serializers.IntegerField()
-   currencieID = serializers.IntegerField()
+# class userBillsBind(serializers.Serializer):
+#    """Your data serializer, define your fields here."""
+#    firstBillID = serializers.IntegerField()
+#    secondBillID = serializers.IntegerField()
+#    currencieID = serializers.IntegerField()

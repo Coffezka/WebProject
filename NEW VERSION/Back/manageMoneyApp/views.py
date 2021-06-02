@@ -1,7 +1,7 @@
 import datetime
 from rest_framework import viewsets
 from rest_framework import authentication,permissions
-from .serializers import currencieSerializer, usersOperationSerializerExtend, userHistorySerializerExtend,usersOperationSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer, userBillsBind
+from .serializers import currencieSerializer, usersOperationSerializerExtend, userHistorySerializerExtend,usersOperationSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer
 from .models import currencie, usersBill, userOperation, userWant, userGoal, userHistory, userSetting
 from rest_framework.authtoken.models import Token
 from rest_framework import filters
@@ -70,8 +70,7 @@ class userGoalViewSet(viewsets.ModelViewSet):
     filter_backends = (OwnerFilterBackend,filters.SearchFilter,)
     queryset = userGoal.objects.all()
     serializer_class = userGoalSerializer
-    authentication_classes = [authentication.TokenAuthentication]
-    
+    authentication_classes = [authentication.TokenAuthentication] 
     search_fields = ['description']
 
     def perform_create(self, serializer):
@@ -111,14 +110,16 @@ class userSettingViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mixins.
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
 
-@api_view(['POST',])
-def userBillBind(request):
-    if request.method == 'POST':
-        serializer = userBillsBind(data=request.data)
+@api_view(['GET',])
+def userBalance(request):
+    bills = usersBill.objects.filter(userID=request.user)
+    balance = 0
+    for i, c in enumerate(bills):
+        num = getattr(c, "balance")
+        cof = getattr(getattr(c, "currencieID"), "value")
+        balance += (num*cof)
         
-        if serializer.is_valid():
-            
-            return JsonResponse({'type':serializer.data['firstBillID']})
-        return JsonResponse({'type':'ErrorBind'})
+
+    return JsonResponse({'Balance': balance})
     
 
