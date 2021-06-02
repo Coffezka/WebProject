@@ -1,3 +1,4 @@
+from drf_yasg.openapi import Operation
 from rest_framework import serializers
 from .models import currencie, userOperation, usersBill,userWant, userGoal, userHistory, userSetting
 
@@ -17,6 +18,7 @@ class usersWantSerializer(serializers.ModelSerializer):
         fields = ['id','name']
 
 class usersOperationSerializer(serializers.ModelSerializer):
+    billID = usersBillSerializer(required=False)
     class Meta:
         model = userOperation
         fields = ['id','type', 'sum','billID']
@@ -27,6 +29,7 @@ class userGoalSerializer(serializers.ModelSerializer):
         fields = ['id','dateStart','dateEnd','description','goalSum']
 
 class userHistorySerializer(serializers.ModelSerializer):
+    operationID = usersOperationSerializer(required=False)
     class Meta:
         model = userHistory
         fields = ['id','date','operationID']
@@ -35,3 +38,9 @@ class userSettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = userSetting
         fields = ['id','darkTheme','defaultCurrencie']
+
+class userBillsBind(serializers.Serializer):
+   """Your data serializer, define your fields here."""
+   firstBillID = serializers.IntegerField()
+   secondBillID = serializers.IntegerField()
+   currencieID = serializers.IntegerField()

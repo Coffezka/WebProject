@@ -1,13 +1,14 @@
 import datetime
 from rest_framework import viewsets
 from rest_framework import authentication,permissions
-from .serializers import currencieSerializer, usersOperationSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer
+from .serializers import currencieSerializer, usersOperationSerializer, usersWantSerializer, usersBillSerializer, userGoalSerializer,userHistorySerializer, userSettingSerializer, userBillsBind
 from .models import currencie, usersBill, userOperation, userWant, userGoal, userHistory, userSetting
 from rest_framework.authtoken.models import Token
 from rest_framework import filters
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import mixins
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
 
 class OwnerFilterBackend(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
@@ -96,5 +97,14 @@ class userSettingViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mixins.
     def perform_update(self, serializer):
         return serializer.save(userID=self.request.user)
 
+@api_view(['POST',])
+def userBillBind(request):
+    if request.method == 'POST':
+        serializer = userBillsBind(data=request.data)
+        
+        if serializer.is_valid():
+
+            return JsonResponse({'type':serializer.data['firstBillID']})
+        return JsonResponse({'type':'ErrorBind'})
     
 

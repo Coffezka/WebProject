@@ -37,6 +37,7 @@ router.register(r'userOperation-rest', views.usersOperationViewSet)
 router.register(r'currencie-rest', views.currencieViewSet)
 router.register(r'usersBill-rest', views.usersBillViewSet)
 router.register(r'userSetting-rest', views.userSettingViewSet)
+#router.register(r'userBillBind-rest',views.userBillBind.as_view())
 
 
 
@@ -47,6 +48,7 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    #path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
-    path('api/account/', include('account.api.urls', 'account_api'))
+    path('api/userBillBind-rest',views.userBillBind,name='userBillBind'),
+    path('api/account/', include('account.api.urls', 'account_api')
+    )
 ]
